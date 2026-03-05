@@ -1,5 +1,5 @@
-# Usa imagem Eclipse Temurin (OpenJDK mantida pela Eclipse Foundation)
-FROM eclipse-temurin:17-jdk-alpine
+# Usa imagem Eclipse Temurin Java 21 (compatível com o projeto)
+FROM eclipse-temurin:21-jdk-alpine
 
 # Define o diretório de trabalho
 WORKDIR /app
