@@ -64,7 +64,8 @@ src/main/resources/
 - ✅ Formatação consistente
 
 ## 🚀 Como Executar
-Spring Boot (Desenvolvimento Local)
+
+### Via Spring Boot (Desenvolvimento Local)
 ```bash
 # Com Maven instalado
 mvn spring-boot:run
@@ -89,8 +90,7 @@ O projeto está configurado para deploy em:
 - **Heroku**: `git push heroku master`
 - **Railway**: Conecte o repositório GitHub
 
-**URL de demonstração**: https://javaprojeto.sliplane.app/a -cp bin Main
-```
+**URL de demonstração**: https://javaprojeto.sliplane.app/
 
 ## 💼 Tipos de Funcionários
 
@@ -100,23 +100,35 @@ O projeto está configurado para deploy em:
 
 ## 📊 Funcionalidades
 
-- ✅ Cadastro de diferentes tipos d
-- ✅ Popular dados de exemplo automaticamentee funcionários
+- ✅ Interface web responsiva e moderna
+- ✅ Cadastro de diferentes tipos de funcionários
 - ✅ Validação de dados de entrada
 - ✅ Cálculo automático de salários
 - ✅ Geração de relatório completo da folha
 - ✅ Formatação monetária em Real (R$)
-- ✅ Interface amigável e intuitiva
+- ✅ Popular dados de exemplo automaticamente
+- ✅ API REST para integração
+- ✅ Deploy em nuvem (Docker-ready)
 
 ## 🔧 Requisitos
 
-- VS Code com Extension Pack for Java (recomendado)
-- Sistema operacional: Windows, Linux ou macOS
+- Java JDK 21
+- Maven 3.6+
+- Docker (opcional, para containerização)
+- Navegador web moderno
+
+## 🌐 API Endpoints
+
+- `POST /api/colaboradores/padrao` - Cadastrar funcionário padrão
+- `POST /api/colaboradores/comissionado` - Cadastrar funcionário comissionado
+- `POST /api/colaboradores/producao` - Cadastrar funcionário de produção
+- `GET /api/colaboradores/folha` - Obter folha de pagamento
+- `POST /api/colaboradores/popular` - Popular dados de exemplo
 
 ## 📖 Documentação Adicional
 
-Para detalhes sobre a arquitetura do sistema, consulte [ARCHITECTURE.md](ARCHITECTURE.md)
-- Sistema operacional: Windows, Linux ou macOS
+- **Versão Console/CLI**: Disponível em `projeto_original_sem_webapp.zip`
+- **Arquitetura Detalhada**: Consulte [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## 📝 Licença
 
