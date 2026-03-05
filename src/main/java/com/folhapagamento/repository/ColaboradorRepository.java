@@ -1,6 +1,6 @@
-package repository;
+package com.folhapagamento.repository;
 
-import model.Colaborador;
+import com.folhapagamento.model.Colaborador;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

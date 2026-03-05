@@ -1,14 +1,18 @@
-# Sistema de Folha de Pagamento
+# Sistema de Folha de Pagamento - Web Edition
 
 ## 📋 Descrição
-Sistema completo para gerenciamento de folha de pagamento com suporte a diferentes tipos de colaboradores.
+Sistema web completo para gerenciamento de folha de pagamento com suporte a diferentes tipos de colaboradores. Desenvolvido com Spring Boot e interface web responsiva.
 
 ## 🏗️ Arquitetura
 
-O projeto segue uma arquitetura em camadas (Layered Architecture) com separação clara de responsabilidades:
+O projeto segue uma arquitetura em camadas (Layered Architecture) com Spring Boot:
 
 ```
-src/
+src/main/java/com/folhapagamento/
+├── controller/         # Camada de Apresentação (REST API + Web)
+│   ├── ColaboradorController.java
+│   └── HomeController.java
+│
 ├── model/              # Camada de Domínio (Entities)
 │   ├── Colaborador.java
 │   ├── FuncionarioPadrao.java
@@ -21,15 +25,16 @@ src/
 ├── service/           # Camada de Negócio (Business Logic)
 │   └── FolhaPagamentoService.java
 │
-├── view/              # Camada de Apresentação (UI)
-│   └── MenuView.java
-│
 ├── util/              # Utilitários
 │   ├── InputValidator.java
 │   ├── MoneyFormatter.java
 │   └── DataSeeder.java
 │
-└── Main.java          # Ponto de Entrada
+└── Application.java   # Ponto de Entrada Spring Boot
+
+src/main/resources/
+└── templates/
+    └── index.html     # Interface Web
 ```
 
 ## 🎯 Princípios Aplicados
@@ -46,7 +51,8 @@ src/
 - **Service Layer Pattern**: Separação da lógica de negócio
 - **Singleton Pattern**: Instância única do repositório
 - **Template Method**: Método abstrato calcularSalarioFinal()
-- **MVC**: Separação Model-View-Controller
+- **MVC/REST**: Arquitetura web com Spring Boot
+- **Dependency Injection**: Gerenciamento de dependências pelo Spring
 
 ### Boas Práticas
 - ✅ Validação de entrada centralizada
@@ -58,30 +64,32 @@ src/
 - ✅ Formatação consistente
 
 ## 🚀 Como Executar
+Spring Boot (Desenvolvimento Local)
+```bash
+# Com Maven instalado
+mvn spring-boot:run
+```
 
-### Via VS Code (Recomendado)
-1. Abra o arquivo `src/Main.java`
-2. Clique em **"Run"** acima do método `main`
-3. Ou pressione **F5** para executar
+Acesse: http://localhost:8080
 
-O VS Code compila automaticamente com as extensões Java instaladas.
-
-### Via Docker
+### Via Docker (Produção)
 ```bash
 # Build da imagem
 docker build -t folha-pagamento .
 
-# Executar (modo interativo)
-docker run -it folha-pagamento
+# Executar
+docker run -p 8080:8080 folha-pagamento
 ```
 
-### Via Linha de Comando
-```bash
-# Compilar (se necessário)
-javac -d bin -sourcepath src src/Main.java src/**/*.java
+Acesse: http://localhost:8080
 
-# Executar
-java -cp bin Main
+### Deploy Online
+O projeto está configurado para deploy em:
+- **Sliplane**: Push para GitHub dispara deploy automático
+- **Heroku**: `git push heroku master`
+- **Railway**: Conecte o repositório GitHub
+
+**URL de demonstração**: https://javaprojeto.sliplane.app/a -cp bin Main
 ```
 
 ## 💼 Tipos de Funcionários

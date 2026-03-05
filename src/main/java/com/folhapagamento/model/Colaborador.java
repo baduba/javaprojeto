@@ -1,4 +1,4 @@
-package model;
+package com.folhapagamento.model;
 
 /**
  * Classe abstrata base que representa um colaborador da empresa.

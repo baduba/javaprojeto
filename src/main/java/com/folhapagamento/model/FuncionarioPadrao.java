@@ -1,4 +1,4 @@
-package model;
+package com.folhapagamento.model;
 
 /**
  * Representa um funcionário com salário fixo sem bônus adicionais.

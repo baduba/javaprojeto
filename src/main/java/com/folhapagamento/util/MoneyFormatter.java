@@ -1,4 +1,4 @@
-package util;
+package com.folhapagamento.util;
 
 import java.text.NumberFormat;
 import java.util.Locale;

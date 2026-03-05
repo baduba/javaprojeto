@@ -1,6 +1,6 @@
-package util;
+package com.folhapagamento.util;
 
-import service.FolhaPagamentoService;
+import com.folhapagamento.service.FolhaPagamentoService;
 
 /**
  * Classe utilitária para popular o sistema com dados de teste.

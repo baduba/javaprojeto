@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Folha de Pagamento</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-button {
+            padding: 12px 24px;
+            border: none;
+            background: #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .tab-button:hover {
+            background: #d0d0d0;
+            transform: translateY(-2px);
+        }
+        
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-right: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            animation: slideDown 0.3s;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            color: #155724;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            color: #721c24;
+        }
+        
+        .relatorio {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .tabs {
+                gap: 5px;
+            }
+            
+            .tab-button {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Sistema de Folha de Pagamento</h1>
+            <p>Gestão Completa de Colaboradores - Versão Web</p>
+        </div>
+        
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-button active" onclick="showTab('padrao')">Funcionário Padrão</button>
+                <button class="tab-button" onclick="showTab('comissionado')">Comissionado</button>
+                <button class="tab-button" onclick="showTab('producao')">Produção</button>
+                <button class="tab-button" onclick="showTab('folha')">Folha de Pagamento</button>
+                <button class="tab-button" onclick="showTab('popular')">Popular Exemplos</button>
+            </div>
+            
+            <div id="alert-container"></div>
+            
+            <!-- Tab Funcionário Padrão -->
+            <div id="tab-padrao" class="tab-content active">
+                <h2>Cadastrar Funcionário Padrão</h2>
+                <form onsubmit="cadastrarPadrao(event)">
+                    <div class="form-group">
+                        <label for="padrao-nome">Nome Completo:</label>
+                        <input type="text" id="padrao-nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="padrao-matricula">Matrícula:</label>
+                        <input type="number" id="padrao-matricula" min="0" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    <button type="reset" class="btn btn-secondary">Limpar</button>
+                </form>
+            </div>
+            
+            <!-- Tab Funcionário Comissionado -->
+            <div id="tab-comissionado" class="tab-content">
+                <h2>Cadastrar Funcionário Comissionado</h2>
+                <form onsubmit="cadastrarComissionado(event)">
+                    <div class="form-group">
+                        <label for="com-nome">Nome Completo:</label>
+                        <input type="text" id="com-nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="com-matricula">Matrícula:</label>
+                        <input type="number" id="com-matricula" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="com-vendas">Valor das Vendas (R$):</label>
+                        <input type="number" id="com-vendas" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="com-percentual">Percentual de Comissão (%):</label>
+                        <input type="number" id="com-percentual" min="0" max="100" step="0.01" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    <button type="reset" class="btn btn-secondary">Limpar</button>
+                </form>
+            </div>
+            
+            <!-- Tab Funcionário Produção -->
+            <div id="tab-producao" class="tab-content">
+                <h2>Cadastrar Funcionário de Produção</h2>
+                <form onsubmit="cadastrarProducao(event)">
+                    <div class="form-group">
+                        <label for="prod-nome">Nome Completo:</label>
+                        <input type="text" id="prod-nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prod-matricula">Matrícula:</label>
+                        <input type="number" id="prod-matricula" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prod-quantidade">Quantidade de Peças:</label>
+                        <input type="number" id="prod-quantidade" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prod-valor">Valor por Peça (R$):</label>
+                        <input type="number" id="prod-valor" min="0" step="0.01" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    <button type="reset" class="btn btn-secondary">Limpar</button>
+                </form>
+            </div>
+            
+            <!-- Tab Folha de Pagamento -->
+            <div id="tab-folha" class="tab-content">
+                <h2>Folha de Pagamento</h2>
+                <button onclick="carregarFolha()" class="btn btn-primary">Atualizar Folha</button>
+                <div id="relatorio-content" style="margin-top: 20px;"></div>
+            </div>
+            
+            <!-- Tab Popular Dados -->
+            <div id="tab-popular" class="tab-content">
+                <h2>Popular Dados de Exemplo</h2>
+                <p style="margin-bottom: 20px;">Clique no botão abaixo para popular o sistema com os 3 funcionários de exemplo conforme os requisitos da prova:</p>
+                <ul style="margin-bottom: 20px; line-height: 1.8;">
+                    <li><strong>Flavio</strong> - Funcionário Padrão (Matrícula: 123)</li>
+                    <li><strong>Maria</strong> - Comissionado (Matrícula: 234, Vendas: R$ 8.000, Comissão: 5%)</li>
+                    <li><strong>Paulo</strong> - Produção (Matrícula: 456, 150 peças × R$ 0,20)</li>
+                </ul>
+                <button onclick="popularDados()" class="btn btn-primary">Popular Dados de Exemplo</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // Add active class to selected tab
+            event.target.classList.add('active');
+            document.getElementById('tab-' + tabName).classList.add('active');
+            
+            // Clear alerts
+            document.getElementById('alert-container').innerHTML = '';
+        }
+        
+        function showAlert(message, type = 'success') {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+            document.getElementById('alert-container').innerHTML = '';
+            document.getElementById('alert-container').appendChild(alertDiv);
+            
+            setTimeout(() => alertDiv.remove(), 5000);
+        }
+        
+        async function cadastrarPadrao(event) {
+            event.preventDefault();
+            
+            const dados = {
+                nome: document.getElementById('padrao-nome').value,
+                matricula: parseInt(document.getElementById('padrao-matricula').value)
+            };
+            
+            try {
+                const response = await fetch('/api/colaboradores/padrao', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dados)
+                });
+                
+                const result = await response.json();
+                showAlert(result.message, result.success ? 'success' : 'error');
+                
+                if (result.success) {
+                    event.target.reset();
+                }
+            } catch (error) {
+                showAlert('Erro ao conectar com o servidor', 'error');
+            }
+        }
+        
+        async function cadastrarComissionado(event) {
+            event.preventDefault();
+            
+            const dados = {
+                nome: document.getElementById('com-nome').value,
+                matricula: parseInt(document.getElementById('com-matricula').value),
+                vendas: parseFloat(document.getElementById('com-vendas').value),
+                percentual: parseFloat(document.getElementById('com-percentual').value)
+            };
+            
+            try {
+                const response = await fetch('/api/colaboradores/comissionado', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dados)
+                });
+                
+                const result = await response.json();
+                showAlert(result.message, result.success ? 'success' : 'error');
+                
+                if (result.success) {
+                    event.target.reset();
+                }
+            } catch (error) {
+                showAlert('Erro ao conectar com o servidor', 'error');
+            }
+        }
+        
+        async function cadastrarProducao(event) {
+            event.preventDefault();
+            
+            const dados = {
+                nome: document.getElementById('prod-nome').value,
+                matricula: parseInt(document.getElementById('prod-matricula').value),
+                quantidade: parseInt(document.getElementById('prod-quantidade').value),
+                valorPeca: parseFloat(document.getElementById('prod-valor').value)
+            };
+            
+            try {
+                const response = await fetch('/api/colaboradores/producao', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dados)
+                });
+                
+                const result = await response.json();
+                showAlert(result.message, result.success ? 'success' : 'error');
+                
+                if (result.success) {
+                    event.target.reset();
+                }
+            } catch (error) {
+                showAlert('Erro ao conectar com o servidor', 'error');
+            }
+        }
+        
+        async function carregarFolha() {
+            const container = document.getElementById('relatorio-content');
+            container.innerHTML = '<div class="loading"><div class="spinner"></div>Carregando...</div>';
+            
+            try {
+                const response = await fetch('/api/colaboradores/folha');
+                const result = await response.json();
+                
+                if (result.success) {
+                    container.innerHTML = `<div class="relatorio">${result.relatorio}</div>`;
+                } else {
+                    container.innerHTML = '<div class="alert alert-error">Erro ao carregar folha</div>';
+                }
+            } catch (error) {
+                container.innerHTML = '<div class="alert alert-error">Erro ao conectar com o servidor</div>';
+            }
+        }
+        
+        async function popularDados() {
+            try {
+                const response = await fetch('/api/colaboradores/popular', {
+                    method: 'POST'
+                });
+                
+                const result = await response.json();
+                showAlert(result.message, result.success ? 'success' : 'error');
+            } catch (error) {
+                showAlert('Erro ao conectar com o servidor', 'error');
+            }
+        }
+        
+        // Auto-load folha when tab is opened
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarFolha();
+        });
+    </script>
+</body>
+</html>

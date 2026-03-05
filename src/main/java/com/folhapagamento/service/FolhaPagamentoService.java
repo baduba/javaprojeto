@@ -1,11 +1,12 @@
-package service;
+package com.folhapagamento.service;
 
-import model.Colaborador;
-import model.FuncionarioPadrao;
-import model.FuncionarioComissionado;
-import model.FuncionarioProducao;
-import repository.ColaboradorRepository;
-import util.MoneyFormatter;
+import com.folhapagamento.model.Colaborador;
+import com.folhapagamento.model.FuncionarioPadrao;
+import com.folhapagamento.model.FuncionarioComissionado;
+import com.folhapagamento.model.FuncionarioProducao;
+import com.folhapagamento.repository.ColaboradorRepository;
+import com.folhapagamento.util.MoneyFormatter;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
  * Serviço responsável pela lógica de negócio da folha de pagamento.
  * Aplica o padrão Service Layer, separando lógica de negócio da apresentação.
  */
+@Service
 public class FolhaPagamentoService {
     
     private ColaboradorRepository repository;
